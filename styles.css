@@ -9,12 +9,12 @@
 }
 
 ::view-transition-old(root){
-    animation-name: wipe-left-out;
+    animation-name: wipe-up-out;
 }
 
 
 ::view-transition-new(root){
-    animation-name: wipe-left-in;
+    animation-name: wipe-up-in;
 }
 
 h1{
