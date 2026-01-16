@@ -1,2 +1,30 @@
 @import "./slide-layout.css";
 @import "./animations.css";
+@view-transition{
+    navigation: auto;
+}
+
+::view-transition-group(root){
+    animation-duration: 1s;
+}
+
+::view-transition-old(root){
+    animation-name: wipe-left-out;
+}
+
+
+::view-transition-new(root){
+    animation-name: wipe-left-in;
+}
+
+h1{
+    view-transition-name: headline;
+}
+
+[aria-keyshortcuts="ArrowLeft"]{
+     view-transition-name: ArrowLeft;
+}
+
+[aria-keyshortcuts="ArrowRight"]{
+     view-transition-name: ArrowRight;
+}
