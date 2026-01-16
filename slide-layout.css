@@ -7,18 +7,18 @@ body {
 	height: 100vh;
 	padding: 0;
 	margin: 0;
-	
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	
+
 	font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui,
 		helvetica neue, Adwaita Sans, Cantarell, Ubuntu, roboto, noto, helvetica,
 		arial, sans-serif;
 	font-weight: 400;
 	font-size: 2rem;
-	
+
 	color: oklch(from var(--key-color) 0.3 0.2 h);
 	background-color: oklch(from var(--key-color) 1 0.2 h);
 	background-image: linear-gradient(
@@ -33,7 +33,23 @@ h1 {
 	margin: 0;
 }
 
-a {
+a[aria-keyshortcuts] {
+	display: grid;
+	place-items: center;
 	position: absolute;
+	inset: 0;
+	padding: 1em;
+	background-color: #000a;
+	color: #fff;
 	opacity: 0;
+	&:hover {
+		opacity: 1;
+	}
+}
+
+a[aria-keyshortcuts="ArrowLeft"] {
+	inset: 0 auto 0 0;
+}
+a[aria-keyshortcuts="ArrowRight"] {
+	inset: 0 0 0 auto;
 }
