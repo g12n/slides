@@ -19,3 +19,27 @@
 		clip-path: inset(0 0 0 0);
 	}
 }
+
+
+
+@keyframes wipe-left-in {
+	0% {
+		opacity: 1;
+		clip-path: inset(0 0 0 100% );
+	}
+	100% {
+		opacity: 1;
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+@keyframes wipe-left-out {
+	0% {
+		opacity: 1;
+		clip-path: inset(0 0 0 0);
+	}
+	100% {
+		opacity: 1;
+		clip-path: inset(0 100% 0 0 );
+	}
+}
