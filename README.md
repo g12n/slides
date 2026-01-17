@@ -1,12 +1,12 @@
 # Slide Deck with Cross Document view transitions
 
-This is an demonstration of [Cross-document view transitions][1] in the context of an Slide Deck.
+This is a demonstration of [Cross-document view transitions][1] in the context of a slide deck.
 
 ## Basic Setup
 
 Each slide of the slide deck is a simple html document. They share a common basic styling in `slide-layout.css` file.
 
-Each slide to its siblings with simple anchor tags. Enabling you to navigate from slide to slide in a familiar way. 
+Each slide is linked to its siblings with simple anchor tags. Enabling you to navigate from slide to slide in a familiar way. 
 
 ```html
 <a href="slide-03.html">prev</a> 
@@ -15,9 +15,11 @@ Each slide to its siblings with simple anchor tags. Enabling you to navigate fro
 
 Like any time you navigate on the web the switch between every slide is a hard jump without any transition. For the experience familiar to us from slide decks we want to add smooth transitions between slides.
 
-# Enable cross document view transitions
+## Enable cross document view transitions
 
-To Enable Cross Document View Transitions add these lines to your CSS code:
+We are going to use a relatively new feature of the web platform: view transitions. 
+
+To enable smooth view transitions across two documents add these lines to your CSS code:
 
 ```css
 @view-transition {
@@ -25,11 +27,11 @@ To Enable Cross Document View Transitions add these lines to your CSS code:
 }
 ```
 
-The [CSSViewTransitionRule] [navigation property] `auto` causes the browser to apply a quick smooth transition to the navigation between pages.
+The [CSSViewTransitionRule] [navigation property] `auto` causes the browser to apply a quick smooth transition to the navigation between pages. 
 
-# Control the speed of the transition
+## Control the speed of the transition
 
-To help you with observing the behavior you can select the [::view-transition-group()] `root` to slow it down by applying a longer [animation-duration].
+To help you observing the behavior you can select the [::view-transition-group()] `root` to slow it down by applying a longer [animation-duration].
 
 ```css
 ::view-transition-group(root) {
@@ -41,11 +43,11 @@ You can experiment with different [css animation attributes]. For detailed obser
 
 ## Modify the transition animation
 
-In the tools you will see the view transition group `root` covering the contents of your new page. It contains an image pair with two snapshots of your page. One of the old page and one of the new. d
+In the browsers dev tools you will see the view transition group `root` covering the contents of your new page. It contains an image pair with two snapshots of your page. One of the old page and one of the new.
 
 ![inspector-screenshot]
 
-you can select these snap shots with `::view-transition-old(root)` and `::view-transition-new(root)` and apply individual animations to each of them.
+you can select these snapshots with `::view-transition-old(root)` and `::view-transition-new(root)` and apply individual animations to each of them.
 
 ```css
 ::view-transition-old(root) {
@@ -83,7 +85,6 @@ Before publishing our slide deck we wrap the code for big animations into a [pre
 
 This way users can opt out of non essential animations. This is especially helpful to users with [vestibular disorders].
 
-
 ## Bonus: Implementing keyboard animation
 
 For a more slide deck like behavior we add the [aria-keyshortcuts-Attribute] to the links in our slides. This way we can control which keys we want to use to switch forward and backward in our presentation. 
@@ -116,6 +117,7 @@ document.addEventListener("keydown", (e) => {
 	}
 });
 ```
+Observe that this code contains a check to avoid triggering the navigation when you are interacting with a text input field or editable text. This wouldn’t matter for a static slide deck. But the strength of this approach is the possibility to add demos and interactive elements right into your presentation. 
 
 # Conclusion: 
 
@@ -125,12 +127,10 @@ Try:
 
 - adding more elements like pictures and lists
 - create different slide layouts 
-- make the style your own by choosing different fonts
+- make the style your own by choosing different fonts, colors and background images
 - experiment with different animations
 - explore how to add different animations to different slides
 - explore how to add different [view transition types] when navigating forward and backwards in your deck
-
-
 
 Later you can use tools like the static site generator [eleventy] for a more comfortable workflow. 
 
