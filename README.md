@@ -69,7 +69,7 @@ h1 {
 }
 ```
 
-Be aware that the selector must result in a single element because each view transition name must map to exactly one element per document.
+Be aware that the selector must result in a single element because each view transition name must map to exactly one element per document. If multiple elements share the same transition name, the browser cannot determine which element to transition and will skip the animation for that name.
 
 Experiment with adding multiple transition groups and animating them individually.
 
@@ -119,7 +119,7 @@ document.addEventListener("keydown", (e) => {
 ```
 Observe that this code contains a check to avoid triggering the navigation when you are interacting with a text input field or editable text. This wouldn’t matter for a static slide deck. But the strength of this approach is the possibility to add demos and interactive elements right into your presentation. 
 
-# Conclusion: 
+## Conclusion: 
 
 You can now create any presentation you like in HTML and CSS without the use of any other software than an text editor and your browser. Explore the view transitions API for more possibilities for ways to improve your slide deck.
 
