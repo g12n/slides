@@ -9,17 +9,32 @@
 }
 
 ::view-transition-old(root){
-    animation-name: wipe-up-out;
+    animation-name: wipe-left-out;
 }
 
 
 ::view-transition-new(root){
-    animation-name: wipe-up-in;
+    animation-name: wipe-left-in;
 }
 
 h1{
     view-transition-name: headline;
 }
+
+
+::view-transition-group(headline){
+    animation-duration: 0.5s;
+}
+
+::view-transition-old(headline){
+    animation-name:flip-x-out;
+}
+
+::view-transition-new(headline){
+    animation-name:flip-x-in;
+}
+
+
 
 [aria-keyshortcuts="ArrowLeft"]{
      view-transition-name: ArrowLeft;

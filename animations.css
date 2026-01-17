@@ -9,6 +9,7 @@
 	}
 }
 
+
 @keyframes wipe-up-in {
 	0% {
 		opacity: 1;
@@ -42,13 +43,25 @@
 	}
 }
 
-@keyframes slideInDown {
+
+
+@keyframes flip-x-in {
+  0%,50% {
+    transform: perspective(400px);
+	rotate: x -90deg;
+  }
+  100% {
+	rotate: x 0deg;
+  }
+}
+
+@keyframes flip-x-out {
   from {
-    transform: translate3d(0, -100%, 0);
-    visibility: visible;
+    transform: perspective(400px);
+	rotate: x 0deg;
   }
 
-  to {
-    transform: translate3d(0, 0, 0);
+  50%,100% {
+	rotate: x 90deg;
   }
 }
