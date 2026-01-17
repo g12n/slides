@@ -10,7 +10,7 @@ Each slide of the slide deck is a simple html document. They share a common basi
 <a href="slide-03.html">prev</a> <a href="slide-02.html">next</a>
 ```
 
-# Enable cross document view traitions
+# Enable cross document view transitions
 
 To Enable Cross Document View Transitions add these lines to your CSS code:
 
@@ -22,7 +22,7 @@ To Enable Cross Document View Transitions add these lines to your CSS code:
 
 The [CSSViewTransitionRule] [navigation property] `auto` causes the browser to apply a quick smooth transition to the navigation between pages.
 
-# Controll the speed of the transiton
+# Control the speed of the transition
 
 To help you with observing the behavior you can select the [::view-transition-group()] `root` to slow it down by applying a longer [animation-duration].
 
@@ -62,7 +62,8 @@ h1 {
 }
 ```
 
-Be aware that the selector must result in a single element.
+Be aware that the selector must result in a single element because each view transition name must map to exactly one element per document.
+
 Experiment with adding multiple transition groups and animating them individually.
 
 ## Accessibility: reduced motion
@@ -80,14 +81,14 @@ This way users can opt out of non essential animations. This is especially helpf
 
 ## Bonus: Implementing keyboard animation
 
-For a more slide deck like behaviour we add the [aria-keyshortcuts-Attribute] to the links in our slides. This way we can control which keys we want to use to switch forward and backward in our presentation. 
+For a more slide deck like behavior we add the [aria-keyshortcuts-Attribute] to the links in our slides. This way we can control which keys we want to use to switch forward and backward in our presentation. 
 
 ```html
 <a aria-keyshortcuts="ArrowLeft p" href="slide-03.html">prev</a>
 <a aria-keyshortcuts="ArrowRight n" href="slide-02.html">next</a>
 ```
 
-Like all ARIA attributes this one comes not with a default browser behaviour automatically. We have to use Javascript, to actually make they keyboard shortcuts work. 
+Like all ARIA attributes, this does not add default browser behavior on its own. We have to use Javascript, to actually make they keyboard shortcuts work. 
 
 ```js
 document.addEventListener("keydown", (e) => {
@@ -100,7 +101,8 @@ document.addEventListener("keydown", (e) => {
 	if (isTyping) return;
 
 	// 2. Search for the key within the space-separated list
-	// [aria-keyshortcuts~="ArrowRight"] matches "ArrowRight" or "n ArrowRight"lnkknn
+	// [aria-keyshortcuts~="ArrowRight"] matches "ArrowRight" or "n ArrowRight"
+    
 	const link = document.querySelector(`a[aria-keyshortcuts~="${e.key}"]`);
 
 	if (link) {
@@ -125,7 +127,7 @@ Try:
 
 
 
-Later you can use tools like the static site generator [eleventy] for a morre comfortable workflow. 
+Later you can use tools like the static site generator [eleventy] for a more comfortable workflow. 
 
 [1]: https://developer.chrome.com/docs/web-platform/view-transitions/cross-document "Cross-document view transitions for multi-page applications by Bramus"
 [CSSViewTransitionRule]: https://developer.mozilla.org/en-US/docs/Web/API/CSSViewTransitionRule
