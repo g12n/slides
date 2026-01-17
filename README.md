@@ -6,9 +6,14 @@ This is an demonstration of [Cross-document view transitions][1] in the context 
 
 Each slide of the slide deck is a simple html document. They share a common basic styling in `slide-layout.css` file.
 
+Each slide to its siblings with simple anchor tags. Enabling you to navigate from slide to slide in a familiar way. 
+
 ```html
-<a href="slide-03.html">prev</a> <a href="slide-02.html">next</a>
+<a href="slide-03.html">prev</a> 
+<a href="slide-02.html">next</a>
 ```
+
+Like any time you navigate on the web the switch between every slide is a hard jump without any transition. For the experience familiar to us from slide decks we want to add smooth transitions between slides.
 
 # Enable cross document view transitions
 
