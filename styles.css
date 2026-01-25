@@ -1,5 +1,7 @@
 @import "./slide-layout.css";
-@import "./animations.css";
+@import "./styles/easings.css";
+@import "./styles/animations.css";
+@import "./styles/hexalist.css";
 
 @view-transition {
 	navigation: auto;
@@ -21,17 +23,23 @@
 		view-transition-name: headline;
 	}
 
-	::view-transition-group(headline) {
-		animation-duration: 1.5s;
-		animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
-	}
 
+	
+	::view-transition-group(headline) {
+		animation-duration: 1s;
+		animation-timing-function: var(--spring-easing);
+	}
+	
 	::view-transition-old(headline) {
-		animation-name: flip-x-out;
+		animation-duration: 0.5s;
+		animation-name: turn-x-out;
+		animation-timing-function: linear,
 	}
 
 	::view-transition-new(headline) {
-		animation-name: flip-x-in;
+		animation-duration: 0.5s;
+		animation-name: turn-x-in;
+		animation-timing-function: linear;
 	}
 
 	[aria-keyshortcuts="ArrowLeft"] {
