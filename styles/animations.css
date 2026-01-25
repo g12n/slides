@@ -1,3 +1,30 @@
+@keyframes turn-x-in{
+	0%{
+		rotate: x -90deg;
+		opacity: 0;
+	}
+	100%{
+		rotate: x 0deg;
+		opacity: 1;
+	}
+}
+
+@keyframes turn-x-out{
+	0%{
+		rotate: x 0deg;
+		opacity: 1;
+	}
+	100%{
+		rotate: x 90deg;
+		opacity: 0;
+	}
+}
+
+@keyframes turn-y-in{
+	0%{
+		rotate: y -90deg
+	}
+}
 @keyframes wipe-up-out {
 	0% {
 		opacity: 1;

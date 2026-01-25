@@ -1,0 +1,46 @@
+.hexalist{
+    font-size: 1.5rem;
+    line-height: 1;
+    counter-reset: list;
+    list-style: none;
+    --hex-size: 3lh;
+    --hex-margin: 0.3lh;
+    --hex-fill-1: var(--key-color);
+    li{ 
+        animation: turn-x-in 0.5s var(--bounce-easing) backwards;
+        animation-delay: calc(sibling-index() * 0.2s);
+        
+        counter-increment: list;
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: var(--hex-margin);
+        margin-block-end: calc(var(--hex-margin) - var(--hex-size) * 0.2886);
+        &::before{
+          
+           
+            
+            color: #fff;
+            content: counter(list);
+            display: grid;
+            background-color: var(--hex-fill-1);
+            width: var(--hex-size);
+            place-items: center;
+            aspect-ratio:1/1.1547;            
+            aspect-ratio: calc( sqrt(3)/2);
+            clip-path: polygon(0% 25%, 0% 75%, 50% 100%, 100% 75%, 100% 25%, 50% 0%);
+        }
+    }
+    li:nth-child(2n),
+    li:nth-child(6n){
+       --invert: oklch(from var(--key-color) l c calc(h + 180)); 
+        --hex-fill-1: color-mix(in oklch, var(--key-color) 90%,var(--invert) 10%);
+        --hex-fill-2: color-mix(in oklch, var(--key-color) 90%,var(--invert) 20%);
+
+        margin-left: calc(var(--hex-size)*0.5 + var(--hex-margin));
+
+    }
+     li:nth-child(5n){
+        margin-left: calc(var(--hex-size)*1 + 2 * var(--hex-margin));
+     }
+}
