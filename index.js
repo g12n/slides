@@ -9,7 +9,7 @@ document.addEventListener("keydown", (e) => {
 
 	// 2. Search for the key within the space-separated list
 	// [aria-keyshortcuts~="ArrowRight"] matches "ArrowRight" or "n ArrowRight"
-	const link = document.querySelector(`a[aria-keyshortcuts~="${e.key}"]`);
+	const link = document.querySelector(`a[aria-keyshortcuts~="${CSS.escape(e.key)}"]`);
 
 	if (link) {
 		e.preventDefault();
@@ -25,7 +25,7 @@ document.addEventListener("click", (e) => {
     }
 });
 
-window.addEventListener("pageswap", async (e) => {
+window.addEventListener("pageswap",  (e) => {
 	if (!e.viewTransition) return;
 	const transitionType = localStorage.getItem("transitionType");
 	if (transitionType) {
@@ -33,7 +33,7 @@ window.addEventListener("pageswap", async (e) => {
 	}
 });
 
-window.addEventListener("pagereveal", async (e) => {
+window.addEventListener("pagereveal",  (e) => {
 	if (!e.viewTransition) return;
 	const transitionType = localStorage.getItem("transitionType");
 	if (transitionType) {
