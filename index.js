@@ -18,13 +18,11 @@ document.addEventListener("keydown", (e) => {
 });
 
 /* Set View Transition Type from the transtionType data of the link  */
-document.addEventListener("DOMContentLoaded", () => {
-	let transitionLinks = document.querySelectorAll("[data-transition-type]");
-	for (const item of transitionLinks) {
-		item.addEventListener("click", (e) => {
-			localStorage.setItem("transitionType", item.dataset.transitionType);
-		});
-	}
+document.addEventListener("click", (e) => {
+    const link = e.target.closest("[data-transition-type]");
+    if (link) {
+        localStorage.setItem("transitionType", link.dataset.transitionType);
+    }
 });
 
 window.addEventListener("pageswap", async (e) => {
@@ -34,7 +32,6 @@ window.addEventListener("pageswap", async (e) => {
 		e.viewTransition.types.add(transitionType);
 	}
 });
-
 
 window.addEventListener("pagereveal", async (e) => {
 	if (!e.viewTransition) return;
