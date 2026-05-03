@@ -1,17 +1,46 @@
 document.addEventListener("keydown", (e) => {
-  // 1. Safety check: Don't hijack keys if the user is typing
-  const isTyping = e.target.tagName === 'INPUT' || 
-                   e.target.tagName === 'TEXTAREA' || 
-                   e.target.isContentEditable;
-  
-  if (isTyping) return;
+	// 1. Safety check: Don't hijack keys if the user is typing
+	const isTyping =
+		e.target.tagName === "INPUT" ||
+		e.target.tagName === "TEXTAREA" ||
+		e.target.isContentEditable;
 
-  // 2. Search for the key within the space-separated list
-  // [aria-keyshortcuts~="ArrowRight"] matches "ArrowRight" or "n ArrowRight"
-  const link = document.querySelector(`a[aria-keyshortcuts~="${e.key}"]`);
+	if (isTyping) return;
 
-  if (link) {
-    e.preventDefault();
-    link.click();
-  }
+	// 2. Search for the key within the space-separated list
+	// [aria-keyshortcuts~="ArrowRight"] matches "ArrowRight" or "n ArrowRight"
+	const link = document.querySelector(`a[aria-keyshortcuts~="${e.key}"]`);
+
+	if (link) {
+		e.preventDefault();
+		link.click();
+	}
+});
+
+/* Set View Transition Type from the transtionType data of the link  */
+document.addEventListener("DOMContentLoaded", () => {
+	let transitionLinks = document.querySelectorAll("[data-transition-type]");
+	for (const item of transitionLinks) {
+		item.addEventListener("click", (e) => {
+			localStorage.setItem("transitionType", item.dataset.transitionType);
+		});
+	}
+});
+
+window.addEventListener("pageswap", async (e) => {
+	if (!e.viewTransition) return;
+	const transitionType = localStorage.getItem("transitionType");
+	if (transitionType) {
+		e.viewTransition.types.add(transitionType);
+	}
+});
+
+
+window.addEventListener("pagereveal", async (e) => {
+	if (!e.viewTransition) return;
+	const transitionType = localStorage.getItem("transitionType");
+	if (transitionType) {
+		e.viewTransition.types.add(transitionType);
+    localStorage.removeItem("transitionType")
+	}
 });

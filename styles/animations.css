@@ -72,6 +72,30 @@
 
 
 
+@keyframes wipe-right-in {
+	0% {
+		opacity: 1;
+		clip-path: inset(0 100% 0 0);
+	}
+	100% {
+		opacity: 1;
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+@keyframes wipe-right-out {
+	0% {
+		opacity: 1;
+		clip-path: inset(0 0 0 0);
+	}
+	100% {
+		opacity: 1;
+		clip-path: inset(0 0 0 100%);
+	}
+}
+
+
+
 @keyframes flip-x-in {
   0%,50% {
     transform: perspective(400px);

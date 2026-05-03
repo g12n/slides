@@ -10,37 +10,7 @@
 @media (prefers-reduced-motion: no-preference) {
 	::view-transition-group(root) {
 		animation-duration: 1s;
-	}
-	::view-transition-old(root) {
-		animation-name: wipe-left-out;
-	}
-
-	::view-transition-new(root) {
-		animation-name: wipe-left-in;
-	}
-
-	h1 {
-		view-transition-name: headline;
-	}
-
-
-	
-	::view-transition-group(headline) {
-		animation-duration: 1s;
-		animation-timing-function: var(--spring-easing);
-	}
-	
-	::view-transition-old(headline) {
-		animation-duration: 0.5s;
-		animation-name: turn-x-out;
-		animation-timing-function: linear,
-	}
-
-	::view-transition-new(headline) {
-		animation-duration: 0.5s;
-		animation-name: turn-x-in;
-		animation-timing-function: linear;
-	}
+	}	
 
 	[aria-keyshortcuts="ArrowLeft"] {
 		view-transition-name: ArrowLeft;
@@ -48,5 +18,26 @@
 
 	[aria-keyshortcuts="ArrowRight"] {
 		view-transition-name: ArrowRight;
+	}
+}
+
+html:active-view-transition-type(backwards){
+	&::view-transition-old(root) {
+		animation-name: wipe-right-out;
+	}
+	&::view-transition-new(root) {
+		animation-name: wipe-right-in;
+	}
+}
+
+html:active-view-transition-type(forwards){
+	h1{
+		view-transition-name: headline;
+	}
+	&::view-transition-old(root) {
+		animation-name: wipe-left-out;
+	}
+	&::view-transition-new(root) {
+		animation-name: wipe-left-in;
 	}
 }
