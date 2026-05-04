@@ -2,7 +2,7 @@
 	0%, 50%{
 		rotate: x -90deg;
 		translate: 0 0 -100vw;
-		border-radius: 100px;
+		border-radius: 1cqi;
 		overflow: hidden;
 		
 	}
@@ -23,7 +23,7 @@
 	}
 	50%,100%{
 		translate: 0 0 -100vw;
-		border-radius: 100px;
+		border-radius: 1cqi;
 		overflow: hidden;
 		rotate: x 90deg;
 		

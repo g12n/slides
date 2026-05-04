@@ -1,34 +1,71 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Animations</title>
 
+		<link rel="stylesheet" href="./styles/transitions.css" />
+
 		<style>
-            @import "animations.css";
-            div{
-                width: 100px;
-                height: 100px;
-                background-color: deeppink;
-                color: white;
-                display: grid;
-                place-items: center;
-                margin: 20px auto;
-                animation-duration: 2s;
-                animation-timing-function: linear;
-                animation-iteration-count: infinite;
-       animation-timing-function: linear(0, 0.417 25.5%, 0.867 49.4%, 1 57.7%, 0.925 65.1%, 0.908 68.6%, 0.902 72.2%, 0.916 78.2%, 0.988 92.1%, 1)
+			body {
+				font-family: sans-serif;
+				margin: 0;
+				display: grid;
+				gap: 1rem;
+				padding: 1rem;
+				grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
+			}
+			animation-demo {
+				display: grid;
+				place-items: center;
+				aspect-ratio: 16/9;
+				container-type: inline-size;
+				background-color: deeppink;
+				color: white;
+			}
+			animation-demo::before {
+				font-size: clamp(1rem, 7cqi, 8rem);
+				content: attr(data-transition-type);
+			}
 
-
-
-            }
-        </style>
-
+			@view-transition {
+				animation-duration: 12s;
+			}
+		</style>
 	</head>
-
 	<body>
-		<div style="animation-name: flip-x-out">flip-y-out</div>
-		<div style="animation-name: flip-x-in">flip-y-in</div>        
+		<animation-demo data-transition-type="flip-block"></animation-demo>
+		<animation-demo data-transition-type="flip-block-reverse"></animation-demo>
+
+        <animation-demo data-transition-type="flip-inline"></animation-demo>
+		<animation-demo data-transition-type="flip-inline-reverse"></animation-demo>
+
+		<animation-demo data-transition-type="push-inline"></animation-demo>
+        <animation-demo data-transition-type="push-inline-reverse"></animation-demo>
+		<animation-demo data-transition-type="push-block"></animation-demo>
+		<animation-demo data-transition-type="push-block-reverse"></animation-demo>
 	</body>
+	<script>
+		class AnimationDemo extends HTMLElement {
+			connectedCallback() {
+				const transionType = this.dataset.transitionType;
+				let counter = 0;
+
+				if ("startViewTransition" in HTMLElement.prototype) {
+					let timerId = setInterval(() => {
+						counter++;
+						this.startViewTransition({
+							update: () => {
+								this.textContent = `slide ${counter}`;
+							},
+							types: [transionType],
+						});
+					}, 2000);
+				}
+			}
+		}
+
+		customElements.define("animation-demo", AnimationDemo);
+	</script>
 </html>
