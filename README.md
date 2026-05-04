@@ -119,37 +119,82 @@ document.addEventListener("keydown", (e) => {
 ```
 Observe that this code contains a check to avoid triggering the navigation when you are interacting with a text input field or editable text. This wouldn’t matter for a static slide deck. But the strength of this approach is the possibility to add demos and interactive elements right into your presentation. 
 
-## Conclusion: 
+## Use local storage for viewTansition.types
 
-You can now create any presentation you like in HTML and CSS without the use of any other software than an text editor and your browser. Explore the view transitions API for more possibilities for ways to improve your slide deck.
+```js
 
-Try: 
+document.addEventListener("keydown", (e) => {
+	const isTyping =
+		e.target.tagName === "INPUT" ||
+		e.target.tagName === "TEXTAREA" ||
+		e.target.isContentEditable;
 
-- adding more elements like pictures and lists
-- create different slide layouts 
-- make the style your own by choosing different fonts, colors and background images
-- experiment with different animations
-- explore how to add different animations to different slides
-- explore how to add different [view transition types] when navigating forward and backwards in your deck
+	if (isTyping) return;
+	const link = document.querySelector(`a[aria-keyshortcuts~="${CSS.escape(e.key)}"]`);
 
-Later you can use tools like the static site generator [eleventy] for a more comfortable workflow. 
+	if (link) {
+		e.preventDefault();
+		link.click();
+	}
+});
 
-[1]: https://developer.chrome.com/docs/web-platform/view-transitions/cross-document "Cross-document view transitions for multi-page applications by Bramus"
-[CSSViewTransitionRule]: https://developer.mozilla.org/en-US/docs/Web/API/CSSViewTransitionRule
-[navigation property]: https://developer.mozilla.org/en-US/docs/Web/API/CSSViewTransitionRule/navigation
-[::view-transition-group()]: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Selectors/::view-transition-group
-[animation-duration]: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation-duration
-[css animation attributes]: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/animation
-[animations inspector]: https://developer.chrome.com/docs/devtools/css/animations
-[view-transition-name]: https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Properties/view-transition-name
-[inspector-screenshot]: inpector-view-transition-group.jpeg
-[view transition types]: https://developer.mozilla.org/en-US/docs/Web/API/View_Transition_API/Using_types
+document.addEventListener("click", (e) => {
+    const link = e.target.closest("[data-transition-type]");
+    if (link) {
+        localStorage.setItem("transitionType", link.dataset.transitionType);
+    }
+});
 
-[prefers-reduced-motion]:https://developer.mozilla.org/de/docs/Web/CSS/Reference/At-rules/@media/prefers-reduced-motion
+window.addEventListener("pageswap",  (e) => {
+	if (!e.viewTransition) return;
+	const transitionType = localStorage.getItem("transitionType");
+	if (transitionType) {
+		e.viewTransition.types.add(transitionType);
+	}
+});
 
-[vestibular disorders]: https://www.a11yproject.com/posts/understanding-vestibular-disorders/ "A primer to vestibular disorders"
+window.addEventListener("pagereveal",  (e) => {
+	if (!e.viewTransition) return;
+	const transitionType = localStorage.getItem("transitionType");
+	if (transitionType) {
+		e.viewTransition.types.add(transitionType);
+    localStorage.removeItem("transitionType")
+	}
+});
+```
 
-[aria-keyshortcuts-Attribute]: https://developer.mozilla.org/de/docs/Web/Accessibility/ARIA/Reference/Attributes/aria-keyshortcuts
-[aria-keyshortcuts]: https://www.digitala11y.com/aria-properties/
+## Use navigation api for viewTransition.types
 
-[eleventy]: https://www.11ty.dev/
+```js
+document.addEventListener("keydown", (e) => {
+    if (e.target.matches("input, textarea") || e.target.isContentEditable) return;
+    const link = document.querySelector(`a[aria-keyshortcuts~="${CSS.escape(e.key)}"]`);
+    if (link) {
+        e.preventDefault();
+        link.click(); // This will trigger onnavigate
+    }
+});
+
+navigation.onnavigate = e => {
+    const type = e.sourceElement?.dataset.transitionType;
+    if (type) {
+        navigation.updateCurrentEntry({ state: { transitionType: type } });
+    }
+};
+
+window.addEventListener("pageswap", (e) => {
+    if (!e.viewTransition) return;
+    const state = navigation.currentEntry.getState();
+    if (state?.transitionType) {
+        e.viewTransition.types.add(state.transitionType);
+    }
+});
+
+window.addEventListener("pagereveal", (e) => {
+    if (!e.viewTransition) return;
+    const state = navigation.activation.from?.getState();
+    if (state?.transitionType) {
+        e.viewTransition.types.add(state.transitionType);
+    }
+});
+```
