@@ -2,6 +2,7 @@
 @import "./styles/easings.css";
 @import "./styles/animations.css";
 @import "./styles/hexalist.css";
+@import "./styles/transitions.css";
 
 @view-transition {
 	navigation: auto;
@@ -11,68 +12,11 @@
 	::view-transition-group(root) {
 		animation-duration: 1s;
 	}
-
-	[aria-keyshortcuts="ArrowLeft"] {
+	[aria-keyshortcuts~="ArrowLeft"] {
 		view-transition-name: ArrowLeft;
 	}
 
-	[aria-keyshortcuts="ArrowRight"] {
+	[aria-keyshortcuts~="ArrowRight"] {
 		view-transition-name: ArrowRight;
-	}
-}
-
-html:active-view-transition-type(backwards) {
-	&::view-transition-old(root) {
-		animation-name: wipe-right-out;
-	}
-	&::view-transition-new(root) {
-		animation-name: wipe-right-in;
-	}
-}
-
-html:active-view-transition-type(forwards) {
-	h1 {
-		view-transition-name: headline;
-	}
-	&::view-transition-old(root) {
-		animation-name: wipe-left-out;
-	}
-	&::view-transition-new(root) {
-		animation-name: wipe-left-in;
-	}
-}
-
-html:active-view-transition-type(turn-x-forward),
-html:active-view-transition-type(turn-x-backward)  {
-	
-	&::view-transition-image-pair(root) {
-	perspective: 100vw;
-	}
-	&::view-transition-group(root) {
-		animation-duration: 0.8s;
-		background-color: black;
-		background-image: linear-gradient(#456, #123);
-			
-	}
-	&::view-transition-old(root) {
-		animation-name: turn-x-out;
-		animation-timing-function: ease-in;
-	}
-	&::view-transition-new(root) {
-		animation-name: turn-x-in;
-		animation-timing-function: ease-out;
-	}
-}
-
-html:active-view-transition-type(turn-x-backward) {
-	&::view-transition-old(root) {
-		animation-name: turn-x-in;
-		animation-timing-function: ease-out;
-		animation-direction: reverse;
-	}
-	&::view-transition-new(root) {
-		animation-name: turn-x-out;
-		animation-timing-function: ease-in;
-		animation-direction: reverse;
 	}
 }

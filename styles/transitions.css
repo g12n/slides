@@ -1,3 +1,5 @@
+@media (prefers-reduced-motion: no-preference) {
+
 @keyframes flip-in{
 	0%, 50%{
 		rotate: var(--axis) -90deg;
@@ -28,8 +30,10 @@
 :active-view-transition-type(flip-inline),
 :active-view-transition-type(flip-inline-reverse)  {
     
+ 
+    
     &::view-transition-group(root) {
-		animation-duration: 2s;
+		animation-duration: 1s;
 		background-color: black;
         container-type: inline-size;
 		background-image: linear-gradient(#456, #123);
@@ -89,6 +93,9 @@
 :active-view-transition-type(push-inline-reverse),
 :active-view-transition-type(push-block),
 :active-view-transition-type(push-block-reverse) {
+
+
+
     &::view-transition-group(root) {
 		animation-duration: 1s;
         animation-timing-function: ease-in-out;
@@ -125,4 +132,5 @@
         --y-axis:1;
 	}
 
+}
 }
