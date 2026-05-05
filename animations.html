@@ -21,7 +21,7 @@
 				place-items: center;
 				aspect-ratio: 16/9;
 				container-type: inline-size;
-				background-color: deeppink;
+				background-color: var(--bg, deeppink);
 				color: white;
 			}
 			animation-demo::before {
@@ -29,31 +29,42 @@
 				content: attr(data-transition-type);
 			}
 
-            h2{
-                grid-column: 1/-1;
-            }
+			h2 {
+				grid-column: 1/-1;
+			}
 			@view-transition {
 				animation-duration: 12s;
 			}
 		</style>
 	</head>
 	<body>
-        <h2>flip</h2>
+		<h2>flip</h2>
 		<animation-demo data-transition-type="flip-block"></animation-demo>
 		<animation-demo data-transition-type="flip-block-reverse"></animation-demo>
-        <animation-demo data-transition-type="flip-inline"></animation-demo>
+		<animation-demo data-transition-type="flip-inline"></animation-demo>
 		<animation-demo data-transition-type="flip-inline-reverse"></animation-demo>
-        <h2>push</h2>
+		<h2>push</h2>
 		<animation-demo data-transition-type="push-inline"></animation-demo>
-        <animation-demo data-transition-type="push-inline-reverse"></animation-demo>
+		<animation-demo data-transition-type="push-inline-reverse"></animation-demo>
 		<animation-demo data-transition-type="push-block"></animation-demo>
 		<animation-demo data-transition-type="push-block-reverse"></animation-demo>
 
-        <h2>move</h2>
+		<h2>move</h2>
 		<animation-demo data-transition-type="move-in-inline"></animation-demo>
-        <animation-demo data-transition-type="move-in-inline-reverse"></animation-demo>
+		<animation-demo
+			data-transition-type="move-in-inline-reverse"
+		></animation-demo>
 		<animation-demo data-transition-type="move-in-block"></animation-demo>
-		<animation-demo data-transition-type="move-in-block-reverse"></animation-demo>
+		<animation-demo
+			data-transition-type="move-in-block-reverse"
+		></animation-demo>
+
+		<h2>wipe</h2>
+		<animation-demo data-transition-type="wipe-inline"></animation-demo>
+        <animation-demo data-transition-type="wipe-inline-reverse"></animation-demo>
+        <animation-demo data-transition-type="wipe-block"></animation-demo>
+        <animation-demo data-transition-type="wipe-block-reverse"></animation-demo>
+
 	</body>
 	<script>
 		class AnimationDemo extends HTMLElement {
@@ -67,8 +78,9 @@
 						this.startViewTransition({
 							update: () => {
 								this.textContent = `slide ${counter}`;
+                                this.style.setProperty("--bg", `oklch(59.69% 0.156 ${Math.random()* 360})`)
 							},
-							types: ["page-transition", transionType ],
+							types: ["page-transition", transionType],
 						});
 					}, 2000);
 				}

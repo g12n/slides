@@ -33,11 +33,15 @@
 
 @keyframes push-in {
 	0% {
+        z-index: 1;
 		translate: calc(100% * var(--x-axis)) calc(100% * var(--y-axis));
+	}
+    100% {
+		z-index: 1;
 	}
 }
 
-@keyframes move-out {
+@keyframes step-back {
 	0% {
 		opacity: 1;
 	}
@@ -47,20 +51,41 @@
 	}
 }
 
-@keyframes move-in {
+@keyframes stay {
 	0% {
-		z-index: 1;
-		translate: calc(100% * var(--x-axis)) calc(100% * var(--y-axis));
+		
 	}
 	100% {
-		z-index: 1;
 	}
 }
 
+@keyframes wipe-left {
+	0% {
+        z-index: 1;
+		clip-path: inset(0 0 0 100%);
+	}
+	100% {
+        z-index: 1;
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+@keyframes wipe-up {
+	0% {
+        z-index: 1;
+		clip-path: inset(100% 0 0 0);
+	}
+    100% {
+        z-index: 1;
+		clip-path: inset(0 0 0 0);
+	}
+}
+
+
 @media (prefers-reduced-motion: no-preference) {
 	:active-view-transition-type(page-transition) {
-		--animation-enter: move-in;
-		--animation-leave: move-out;
+		--animation-enter: push-in;
+		--animation-leave: push-out;
 		--animation-direction: normal;
 		--x-axis: 1;
 		--y-axis: 0;
@@ -138,15 +163,15 @@
 	:active-view-transition-type(move-in-inline-reverse),
 	:active-view-transition-type(move-in-block),
 	:active-view-transition-type(move-in-block-reverse) {
-		--animation-enter: move-in;
-		--animation-leave: move-out;
+		--animation-enter: push-in;
+		--animation-leave: step-back;
 	}
 
 	:active-view-transition-type(move-in-inline-reverse),
 	:active-view-transition-type(move-in-block-reverse) {
 		--animation-direction: reverse;
-		--animation-enter: move-out;
-		--animation-leave: move-in;
+		--animation-enter: step-back;
+		--animation-leave: push-in;;
 	}
 
 	:active-view-transition-type(move-in-block),
@@ -154,4 +179,27 @@
 		--x-axis: 0;
 		--y-axis: 1;
 	}
+
+    :active-view-transition-type(wipe-inline){
+        --animation-enter: wipe-left;
+		--animation-leave: stay;
+    }
+
+
+    :active-view-transition-type(wipe-inline-reverse){
+        --animation-enter: stay;
+		--animation-leave: wipe-left;
+        --animation-direction: reverse;
+    }
+    
+    :active-view-transition-type(wipe-block){
+        --animation-enter: wipe-up;
+		--animation-leave: stay;
+    }
+
+     :active-view-transition-type(wipe-block-reverse){
+        --animation-enter: stay;
+		--animation-leave: wipe-up;
+        --animation-direction: reverse;
+    }
 }
