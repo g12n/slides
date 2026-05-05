@@ -1,136 +1,157 @@
-@media (prefers-reduced-motion: no-preference) {
-
-@keyframes flip-in{
-	0%, 50%{
+@keyframes flip-in {
+	0%,
+	50% {
 		rotate: var(--axis) -90deg;
 		translate: 0 0 -30cqi;
-        filter: brightness(0.3);
+		filter: brightness(0.3);
 	}
-	100%{
+	100% {
 		rotate: var(--axis) 0deg;
-		scale:1;
+		scale: 1;
 	}
 }
 
-@keyframes flip-out{
-	0%{
+@keyframes flip-out {
+	0% {
 		rotate: var(--axis) 0deg;
-		scale:1;
+		scale: 1;
 		translate: 0 0 0;
 	}
-	50%,100%{
+	50%,
+	100% {
 		translate: 0 0 -30cqi;
 		rotate: var(--axis) 90deg;
-        filter: brightness(1.5);
+		filter: brightness(1.5);
 	}
-}
-
-:active-view-transition-type(flip-block),
-:active-view-transition-type(flip-block-reverse),
-:active-view-transition-type(flip-inline),
-:active-view-transition-type(flip-inline-reverse)  {
-    
- 
-    
-    &::view-transition-group(root) {
-		animation-duration: 1s;
-		background-color: black;
-        container-type: inline-size;
-		background-image: linear-gradient(#456, #123);
-	}
-    
-	&::view-transition-image-pair(root) {
-	    perspective: 200cqi;
-        --axis: x;
-	}
-	
-	&::view-transition-old(root) {
-          
-		animation-name: flip-out;
-		animation-timing-function: ease-in;
-	}
-	&::view-transition-new(root) {
-		animation-name: flip-in;
-		animation-timing-function: ease-out;
-	}
-}
-
-:active-view-transition-type(flip-block-reverse),
-:active-view-transition-type(flip-inline-reverse) {
-	&::view-transition-old(root) {
-		animation-name: flip-in;
-		animation-timing-function: ease-out;
-		animation-direction: reverse;
-	}
-	&::view-transition-new(root) {
-		animation-name: flip-out;
-		animation-timing-function: ease-in;
-		animation-direction: reverse;
-	}
-}
-
-:active-view-transition-type(flip-inline-reverse),
-:active-view-transition-type(flip-inline){
-    &::view-transition-image-pair(root) {
-         --axis: y;
-    }
 }
 
 @keyframes push-out {
-    100%{
-        translate: calc(-100% * var(--x-axis))  calc(-100% * var(--y-axis));
-    }
+	100% {
+		translate: calc(-100% * var(--x-axis)) calc(-100% * var(--y-axis));
+	}
 }
 
 @keyframes push-in {
-    0%{
-        translate: calc(100% * var(--x-axis))  calc(100% * var(--y-axis));
-    }
-}
-
-
-:active-view-transition-type(push-inline),
-:active-view-transition-type(push-inline-reverse),
-:active-view-transition-type(push-block),
-:active-view-transition-type(push-block-reverse) {
-
-
-
-    &::view-transition-group(root) {
-		animation-duration: 1s;
-        animation-timing-function: ease-in-out;
-        overflow: hidden;
-        --x-axis:1;
-        --y-axis:0;
-	}
-
-	&::view-transition-old(root) {
-		animation-name: push-out;
-	
-	}
-	&::view-transition-new(root) {
-		animation-name: push-in;
+	0% {
+		translate: calc(100% * var(--x-axis)) calc(100% * var(--y-axis));
 	}
 }
 
-:active-view-transition-type(push-inline-reverse),
-:active-view-transition-type(push-block-reverse) {	
-	&::view-transition-old(root) {
-		animation-name: push-in;
-        animation-direction: reverse;
+@keyframes move-out {
+	0% {
+		opacity: 1;
 	}
-	&::view-transition-new(root) {
-		animation-name: push-out;
-         animation-direction: reverse;
+	100% {
+		filter: brightness(0.3);
+		scale: 0.8;
 	}
 }
 
-:active-view-transition-type(push-block),
-:active-view-transition-type(push-block-reverse){
-        &::view-transition-group(root) {
-        --x-axis:0;
-        --y-axis:1;
+@keyframes move-in {
+	0% {
+		z-index: 1;
+		translate: calc(100% * var(--x-axis)) calc(100% * var(--y-axis));
+	}
+	100% {
+		z-index: 1;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	:active-view-transition-type(page-transition) {
+		--animation-enter: move-in;
+		--animation-leave: move-out;
+		--animation-direction: normal;
+		--x-axis: 1;
+		--y-axis: 0;
+
+		&::view-transition-group(root) {
+			animation-duration: 1s;
+			animation-timing-function: ease-in-out;
+			overflow: hidden;
+			animation-direction: var(--animation-direction);
+		}
+		&::view-transition-old(root) {
+			animation-name: var(--animation-leave);
+		}
+		&::view-transition-new(root) {
+			animation-name: var(--animation-enter);
+		}
 	}
 
-}
+	:active-view-transition-type(flip-block),
+	:active-view-transition-type(flip-block-reverse),
+	:active-view-transition-type(flip-inline),
+	:active-view-transition-type(flip-inline-reverse) {
+		--axis: x;
+		--animation-direction: normal;
+		--animation-enter: flip-in;
+		--animation-leave: flip-out;
+		&::view-transition-group(root) {
+			background-color: black;
+			container-type: inline-size;
+			background-image: linear-gradient(#456, #123);
+		}
+		&::view-transition-image-pair(root) {
+			perspective: 200cqi;
+		}
+	}
+
+	:active-view-transition-type(flip-block-reverse),
+	:active-view-transition-type(flip-inline-reverse) {
+		--animation-direction: reverse;
+		--animation-enter: flip-out;
+		--animation-leave: flip-in;
+	}
+
+	:active-view-transition-type(flip-inline-reverse),
+	:active-view-transition-type(flip-inline) {
+		--axis: y;
+	}
+
+	:active-view-transition-type(push-inline),
+	:active-view-transition-type(push-inline-reverse),
+	:active-view-transition-type(push-block),
+	:active-view-transition-type(push-block-reverse) {
+		--animation-enter: push-in;
+		--animation-leave: push-out;
+		--x-axis: 1;
+		--y-axis: 0;
+	}
+
+	:active-view-transition-type(push-inline-reverse),
+	:active-view-transition-type(push-block-reverse) {
+		--animation-direction: reverse;
+		--animation-enter: push-out;
+		--animation-leave: push-in;
+	}
+
+	:active-view-transition-type(push-block),
+	:active-view-transition-type(push-block-reverse) {
+		--x-axis: 0;
+		--y-axis: 1;
+	}
+
+	/*--- move --- */
+
+	:active-view-transition-type(move-in-inline),
+	:active-view-transition-type(move-in-inline-reverse),
+	:active-view-transition-type(move-in-block),
+	:active-view-transition-type(move-in-block-reverse) {
+		--animation-enter: move-in;
+		--animation-leave: move-out;
+	}
+
+	:active-view-transition-type(move-in-inline-reverse),
+	:active-view-transition-type(move-in-block-reverse) {
+		--animation-direction: reverse;
+		--animation-enter: move-out;
+		--animation-leave: move-in;
+	}
+
+	:active-view-transition-type(move-in-block),
+	:active-view-transition-type(move-in-block-reverse) {
+		--x-axis: 0;
+		--y-axis: 1;
+	}
 }

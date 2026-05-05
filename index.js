@@ -37,7 +37,9 @@ window.addEventListener("pagereveal",  (e) => {
 	if (!e.viewTransition) return;
 	const transitionType = localStorage.getItem("transitionType");
 	if (transitionType) {
+		e.viewTransition.types.add("page-transition");
 		e.viewTransition.types.add(transitionType);
+		console.log(e.viewTransition.types)
     localStorage.removeItem("transitionType")
 	}
 });
