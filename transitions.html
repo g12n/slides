@@ -15,7 +15,37 @@
 				gap: 1rem;
 				padding: 1rem;
 			}
+transition-controlls{
+display: grid;
+margin:auto;
+grid-template-columns: repeat(3, 1fr);
 
+select{
+grid-area:2/2;
+}
+
+button{
+aspect-ratio:1;
+}
+
+
+[data-axis="inline"]{
+grid-area:2/3;
+}
+
+[data-axis="inline"][data-reverse]{
+grid-area:2/1;
+}
+
+[data-axis="block"]{
+grid-area:3/2;
+}
+
+[data-axis="block"][data-reverse]{
+grid-area:1/2;
+}
+
+}
 
 			
 			@view-transition {
