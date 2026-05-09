@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Animations</title>
+
+		<link rel="stylesheet" href="./styles/transitions.css" />
+
+		<style>
+			body {
+				font-family: sans-serif;
+				margin: 0;
+				display: grid;
+				gap: 1rem;
+				padding: 1rem;
+			}
+
+
+			
+			@view-transition {
+				animation-duration: 12s;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>flip</h1>
+
+		
+		<transition-controlls>
+		<select id="transiton" name="transition-type">
+		<option value="move-in" >move-in</option>
+		<option value="flip" selected>flip</option>
+				<option value="push" >push</option>
+		</select>
+
+	<button data-axis="inline">➡️</button> 
+	<button data-axis="inline" data-reverse>⬅️</button> 
+	<button data-axis="block">⬇️</button> 
+	<button data-axis="block" data-reverse>⬆️</button>
+	
+	</transition-controlls>
+	<script>
+	
+	const headline = document.querySelector("h1");
+	
+	const selectElement = document.querySelector("select");
+	let counter = 1;
+	
+document.addEventListener("click", handleClick);
+
+function handleClick(e) {
+  if (!e.target.closest("button")) return;
+
+
+  console.log(e.target.closest("button").dataset.reverse);
+
+let {axis, reverse} = e.target.closest("button").dataset;
+let transitionName = selectElement.value;
+
+  if (!document.startViewTransition) {
+    updateTheDOMSomehow();
+    return;
+  }
+  
+ reverse = reverse === undefined ? "" : "-reverse";
+  
+  let transionType =`${transitionName}-${axis}${reverse}`;
+  console.log(transionType,reverse)
+
+  document.startViewTransition({
+   update: updateTheDOMSomehow,
+   types: ["page-transition", transionType]
+  });
+}
+
+function updateTheDOMSomehow	(){
+  headline.textContent = counter++
+}
+	</script>
+	</body>
+</html>
