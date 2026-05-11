@@ -1,124 +1,119 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Animations</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Animations</title>
+        <link rel="stylesheet" href="./styles/transitions.css?v=1" />
+        <style>
+            :root {
+                --bg-color: navy;
+            }
+            body {
+                font-family: sans-serif;
+                margin: 0;
+                display: grid;
+                gap: 1rem;
+                padding: 1rem;
+                background: var(--bg-color, black);
+                color: contrast-color(var(--bg-color));
+            }
+            transition-controlls {
+                display: grid;
+                margin: auto;
+                gap: 20px;
+                grid-template-columns: repeat(3, 1fr);
 
-		<link rel="stylesheet" href="./styles/transitions.css?v=1" />
+                select {
+                    grid-area: 2/2;
+                }
 
-		<style>
-		:root{
-			--bg-color: navy;
-		}
-			body {
+                select,
+                ::picker(select) {
+                    appearance: base-select;
+                }
 
-				font-family: sans-serif;
-				margin: 0;
-				display: grid;
-				gap: 1rem;
-				padding: 1rem;
-				background: var(--bg-color, black);
-				
-				color: contrast-color(var(--bg-color));
-			}
-transition-controlls{
-display: grid;
-margin:auto;
-grid-template-columns: repeat(3, 1fr);
+                button {
+                    aspect-ratio: 1;
+                }
 
-select{
-grid-area:2/2;
-}
+                [data-axis="inline"] {
+                    grid-area: 2/3;
+                }
 
-button{
-aspect-ratio:1;
-}
+                [data-axis="inline"][data-reverse] {
+                    grid-area: 2/1;
+                }
 
+                [data-axis="block"] {
+                    grid-area: 3/2;
+                }
 
-[data-axis="inline"]{
-grid-area:2/3;
-}
+                [data-axis="block"][data-reverse] {
+                    grid-area: 1/2;
+                }
+            }
 
-[data-axis="inline"][data-reverse]{
-grid-area:2/1;
-}
+            @view-transition {
+                animation-duration: 12s;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>flip</h1>
 
-[data-axis="block"]{
-grid-area:3/2;
-}
+        <transition-controlls>
+            <select id="transiton" name="transition-type">
+                <option value="move">move-in</option>
+                <option value="flip" selected>flip</option>
+                <option value="push">push</option>
+                <option value="wipe">wipe</option>
+                <option value="blend">blend</option>
+            </select>
 
-[data-axis="block"][data-reverse]{
-grid-area:1/2;
-}
+            <button data-axis="inline">inline</button>
+            <button data-axis="inline" data-reverse>inline reverse</button>
+            <button data-axis="block">block</button>
+            <button data-axis="block" data-reverse>inline block</button>
+        </transition-controlls>
+        <script>
+            const headline = document.querySelector("h1");
 
-}
+            const selectElement = document.querySelector("select");
+            let counter = 1;
 
-			
-			@view-transition {
-				animation-duration: 12s;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>flip</h1>
+            document.addEventListener("click", handleClick);
 
-		
-		<transition-controlls>
-		<select id="transiton" name="transition-type">
-		<option value="move-in" >move-in</option>
-		<option value="flip" selected>flip</option>
-				<option value="push" >push</option>
-		</select>
+            function handleClick(e) {
+                if (!e.target.closest("button")) return;
 
-	<button data-axis="inline">➡️</button> 
-	<button data-axis="inline" data-reverse>⬅️</button> 
-	<button data-axis="block">⬇️</button> 
-	<button data-axis="block" data-reverse>⬆️</button>
-	
-	</transition-controlls>
-	<script>
-	
-	const headline = document.querySelector("h1");
-	
-	const selectElement = document.querySelector("select");
-	let counter = 1;
-	
-document.addEventListener("click", handleClick);
+                let { axis = inline, reverse } =
+                    e.target.closest("button").dataset;
+                let transitionName = selectElement.value;
 
-function handleClick(e) {
-  if (!e.target.closest("button")) return;
+                if (!document.startViewTransition) {
+                    updateTheDOMSomehow();
+                    return;
+                }
 
+                reverse = reverse === undefined ? "" : "reverse";
 
-  console.log(e.target.closest("button").dataset.reverse);
+                document.startViewTransition({
+                    update: updateTheDOMSomehow,
+                    types: ["page-transition", transitionName, axis, reverse],
+                });
+            }
 
-let {axis, reverse} = e.target.closest("button").dataset;
-let transitionName = selectElement.value;
+            function updateTheDOMSomehow() {
+                const myColor = `oklch(50% 50% ${Math.random() * 360}deg)`;
 
-  if (!document.startViewTransition) {
-    updateTheDOMSomehow();
-    return;
-  }
-  
- reverse = reverse === undefined ? "" : "-reverse";
-  
-  let transionType =`${transitionName}-${axis}${reverse}`;
-  console.log(transionType,reverse)
+                document.documentElement.style.setProperty(
+                    "--bg-color",
+                    myColor,
+                );
 
-  document.startViewTransition({
-   update: updateTheDOMSomehow,
-   types: ["page-transition", transionType]
-  });
-}
-
-function updateTheDOMSomehow	(){
-
-const myColor = `oklch(50% 50% ${Math.random()*360}deg)`;
-
-document.documentElement.style.setProperty("--bg-color", myColor);
-
-  headline.textContent = counter++
-}
-	</script>
-	</body>
+                headline.textContent = counter++;
+            }
+        </script>
+    </body>
 </html>

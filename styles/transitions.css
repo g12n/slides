@@ -1,211 +1,150 @@
 @keyframes flip-in {
-	0%,
-	50% {
-	animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
-	
-		rotate: var(--axis) -90deg;
-		translate: 0 0 -30cqi;
-		filter: brightness(0.3);
-	}
-	100% {
-		rotate: var(--axis) 0deg;
-		scale: 1;
-	}
+    0%,
+    50% {
+        animation-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+        rotate: var(--axis) -90deg;
+        translate: 0 0 -30cqi;
+        filter: brightness(0.3);
+    }
+    100% {
+        rotate: var(--axis) 0deg;
+        scale: 1;
+    }
 }
 
 @keyframes flip-out {
-	0% {
-		rotate: var(--axis) 0deg;
-		scale: 1;
-		translate: 0 0 0;
-		animation-timing-function: 
-		cubic-bezier(0.7, 0, 0.84, 0);
-		animation-timing-function: cubic-bezier(0.36, 0, 0.66, -0.56);
-	}
-	50%,
-	100% {
-		translate: 0 0 -30cqi;
-		rotate: var(--axis) 90deg;
-		filter: brightness(1.5);
-
-	}
+    0% {
+        rotate: var(--axis) 0deg;
+        scale: 1;
+        translate: 0 0 0;
+        animation-timing-function: cubic-bezier(0.7, 0, 0.84, 0);
+        animation-timing-function: cubic-bezier(0.36, 0, 0.66, -0.56);
+    }
+    50%,
+    100% {
+        translate: 0 0 -30cqi;
+        rotate: var(--axis) 90deg;
+        filter: brightness(1.5);
+    }
 }
 
 @keyframes push-out {
-	100% {
-		translate: calc(-100% * var(--x-axis)) calc(-100% * var(--y-axis));
-	}
+    100% {
+        translate: calc(-100% * var(--x-axis)) calc(-100% * var(--y-axis));
+    }
 }
 
 @keyframes push-in {
-	0% {
-        z-index: 1;
-		translate: calc(100% * var(--x-axis)) calc(100% * var(--y-axis));
-	}
-    100% {
-		z-index: 1;
-	}
+    0% {
+        translate: calc(100% * var(--x-axis)) calc(100% * var(--y-axis));
+    }
 }
 
 @keyframes step-back {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		filter: brightness(0.3);
-		scale: 0.8;
-	}
+    0% {
+        opacity: 1;
+    }
+    100% {
+        filter: brightness(0.3);
+        scale: 0.8;
+    }
 }
 
 @keyframes stay {
-	0% {
-		
-	}
-	100% {
-	}
-}
-
-@keyframes wipe-left {
-	0% {
-        z-index: 1;
-		clip-path: inset(0 0 0 100%);
-	}
-	100% {
-        z-index: 1;
-		clip-path: inset(0 0 0 0);
-	}
-}
-
-@keyframes wipe-up {
-	0% {
-        z-index: 1;
-		clip-path: inset(100% 0 0 0);
-	}
+    0% {
+    }
     100% {
-        z-index: 1;
-		clip-path: inset(0 0 0 0);
-	}
+    }
 }
 
+@keyframes wipe {
+    0% {
+        clip-path: inset(
+            calc(var(--y-axis) * 100%) 0 0 calc(var(--x-axis) * 100%)
+        );
+    }
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
 
+@keyframes blend-in {
+    0% {
+        opacity: 0;
+    }
+}
+@keyframes blend-out {
+    100% {
+        opacity: 0;
+    }
+}
 @media (prefers-reduced-motion: no-preference) {
-	:active-view-transition-type(page-transition) {
-		--animation-enter: push-in;
-		--animation-leave: push-out;
-		--animation-direction: normal;
-		--x-axis: 1;
-		--y-axis: 0;
+    :active-view-transition-type(page-transition) {
+        --animation-enter: blend-in;
+        --animation-leave: stay;
+        --x-axis: 1;
+        --y-axis: 0;
+        --axis: y;
 
-		&::view-transition-group(root) {
-			animation-duration: 1s;
-			animation-timing-function: ease-in-out;
-			overflow: hidden;
-			animation-direction: var(--animation-direction);
-		}
-		&::view-transition-old(root) {
-			animation-name: var(--animation-leave);
-		}
-		&::view-transition-new(root) {
-			animation-name: var(--animation-enter);
-		}
-	}
-
-	:active-view-transition-type(flip-block),
-	:active-view-transition-type(flip-block-reverse),
-	:active-view-transition-type(flip-inline),
-	:active-view-transition-type(flip-inline-reverse) {
-		--axis: x;
-		--animation-direction: normal;
-		--animation-enter: flip-in;
-		--animation-leave: flip-out;
-		&::view-transition-group(root) {
-			background-color: black;
-			container-type: inline-size;
-			background-image: linear-gradient(#456, #123);
-		}
-		&::view-transition-image-pair(root) {
-			perspective: 200cqi;
-		}
-	}
-
-	:active-view-transition-type(flip-block-reverse),
-	:active-view-transition-type(flip-inline-reverse) {
-		--animation-direction: reverse;
-		--animation-enter: flip-out;
-		--animation-leave: flip-in;
-	}
-
-	:active-view-transition-type(flip-inline-reverse),
-	:active-view-transition-type(flip-inline) {
-		--axis: y;
-	}
-
-	:active-view-transition-type(push-inline),
-	:active-view-transition-type(push-inline-reverse),
-	:active-view-transition-type(push-block),
-	:active-view-transition-type(push-block-reverse) {
-		--animation-enter: push-in;
-		--animation-leave: push-out;
-		--x-axis: 1;
-		--y-axis: 0;
-	}
-
-	:active-view-transition-type(push-inline-reverse),
-	:active-view-transition-type(push-block-reverse) {
-		--animation-direction: reverse;
-		--animation-enter: push-out;
-		--animation-leave: push-in;
-	}
-
-	:active-view-transition-type(push-block),
-	:active-view-transition-type(push-block-reverse) {
-		--x-axis: 0;
-		--y-axis: 1;
-	}
-
-	/*--- move --- */
-
-	:active-view-transition-type(move-in-inline),
-	:active-view-transition-type(move-in-inline-reverse),
-	:active-view-transition-type(move-in-block),
-	:active-view-transition-type(move-in-block-reverse) {
-		--animation-enter: push-in;
-		--animation-leave: step-back;
-	}
-
-	:active-view-transition-type(move-in-inline-reverse),
-	:active-view-transition-type(move-in-block-reverse) {
-		--animation-direction: reverse;
-		--animation-enter: step-back;
-		--animation-leave: push-in;;
-	}
-
-	:active-view-transition-type(move-in-block),
-	:active-view-transition-type(move-in-block-reverse) {
-		--x-axis: 0;
-		--y-axis: 1;
-	}
-
-    :active-view-transition-type(wipe-inline){
-        --animation-enter: wipe-left;
-		--animation-leave: stay;
+        &::view-transition-group(root) {
+            animation-duration: 0.8s;
+            animation-timing-function: ease-in-out;
+            overflow: hidden;
+            background-color: black;
+            container-type: inline-size;
+            background-image: linear-gradient(#123, #234);
+        }
+        &::view-transition-old(root) {
+            animation-name: var(--animation-leave);
+        }
+        &::view-transition-new(root) {
+            animation-name: var(--animation-enter);
+        }
     }
 
-
-    :active-view-transition-type(wipe-inline-reverse){
-        --animation-enter: stay;
-		--animation-leave: wipe-left;
-        --animation-direction: reverse;
+    :active-view-transition-type(reverse) {
+        &::view-transition-group(root) {
+            animation-direction: reverse;
+        }
+        &::view-transition-old(root) {
+            z-index: 2;
+            animation-name: var(--animation-enter);
+        }
+        &::view-transition-new(root) {
+            z-index: 0;
+            animation-name: var(--animation-leave);
+        }
     }
-    
-    :active-view-transition-type(wipe-block){
-        --animation-enter: wipe-up;
-		--animation-leave: stay;
+
+    :active-view-transition-type(block) {
+        --axis: x;
+        --x-axis: 0;
+        --y-axis: 1;
     }
 
-     :active-view-transition-type(wipe-block-reverse){
-        --animation-enter: stay;
-		--animation-leave: wipe-up;
-        --animation-direction: reverse;
+    :active-view-transition-type(flip) {
+        --animation-enter: flip-in;
+        --animation-leave: flip-out;
+        &::view-transition-image-pair(root) {
+            perspective: 200cqi;
+        }
+    }
+    :active-view-transition-type(push) {
+        --animation-enter: blend-in;
+        --animation-leave: stay;
+    }
+    :active-view-transition-type(push) {
+        --animation-enter: push-in;
+        --animation-leave: push-out;
+    }
+
+    :active-view-transition-type(move) {
+        --animation-enter: push-in;
+        --animation-leave: step-back;
+    }
+
+    :active-view-transition-type(wipe) {
+        --animation-enter: wipe;
+        --animation-leave: stay;
     }
 }
