@@ -23,26 +23,44 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("click", (e) => {
   const link = e.target.closest("[data-transition-type]");
   if (link) {
-    localStorage.setItem("transitionType", link.dataset.transitionType);
+    let { transitionType, transitionAxis } = link.dataset;
+    let reverse = link.dataset.reverse != null ? "reverse" : "forward";
+
+    console.log(transitionType, transitionAxis, reverse);
+    localStorage.setItem("transitionType", transitionType);
+    localStorage.setItem("transitionAxis", transitionAxis);
+    localStorage.setItem("transitionDirection", reverse);
   }
 });
 
 window.addEventListener("pageswap", (e) => {
   if (!e.viewTransition) return;
   const transitionType = localStorage.getItem("transitionType");
+  const transitionAxis = localStorage.getItem("transitionAxis");
+  const transitionDirection = localStorage.getItem("transitionDirection");
+
   if (transitionType) {
     e.viewTransition.types.add("page-transition");
-    e.viewTransition.types.add(transitionType);
+    e.viewTransition.types.add(transitionAxis);
+    e.viewTransition.types.add(transitionDirection);
   }
 });
 
 window.addEventListener("pagereveal", (e) => {
   if (!e.viewTransition) return;
   const transitionType = localStorage.getItem("transitionType");
+  const transitionAxis = localStorage.getItem("transitionAxis");
+  const transitionDirection = localStorage.getItem("transitionDirection");
+
+  console.log(transitionType, transitionAxis, transitionDirection);
   if (transitionType) {
     e.viewTransition.types.add("page-transition");
     e.viewTransition.types.add(transitionType);
+    e.viewTransition.types.add(transitionAxis);
+    e.viewTransition.types.add(transitionDirection);
     console.log(e.viewTransition.types);
     localStorage.removeItem("transitionType");
+    localStorage.removeItem("transitionAxis");
+    localStorage.removeItem("transitionDirection");
   }
 });
