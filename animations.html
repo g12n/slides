@@ -1,92 +1,74 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Animations</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Animations</title>
 
-		<link rel="stylesheet" href="./styles/transitions.css" />
+        <link rel="stylesheet" href="./styles/transitions.css" />
 
-		<style>
-			body {
-				font-family: sans-serif;
-				margin: 0;
-				display: grid;
-				gap: 1rem;
-				padding: 1rem;
-				grid-template-columns: repeat(auto-fill, minmax(min(100%, 350px), 1fr));
-			}
-			animation-demo {
-				display: grid;
-				place-items: center;
-				aspect-ratio: 16/9;
-				container-type: inline-size;
-				background-color: var(--bg, deeppink);
-				color: white;
-			}
-			animation-demo::before {
-				font-size: clamp(1rem, 7cqi, 8rem);
-				content: attr(data-transition-type);
-			}
+        <style>
+            :root {
+                --x-axis: 1;
+                --y-axis: 0;
+                --axis: y;
+                --max-duration: 1s;
+            }
+            body {
+                font-family: sans-serif;
+                margin: 0;
+                display: grid;
+                gap: 1rem;
+                padding: 1rem;
+                grid-template-columns: repeat(
+                    auto-fill,
+                    minmax(min(100%, 350px), 1fr)
+                );
+                overflow-x: hidden;
+            }
+            animation-demo {
+                aspect-ratio: 16/9;
 
-			h2 {
-				grid-column: 1/-1;
-			}
-			@view-transition {
-				animation-duration: 12s;
-			}
-		</style>
-	</head>
-	<body>
-		<h2>flip</h2>
-		<animation-demo data-transition-type="flip-block"></animation-demo>
-		<animation-demo data-transition-type="flip-block-reverse"></animation-demo>
-		<animation-demo data-transition-type="flip-inline"></animation-demo>
-		<animation-demo data-transition-type="flip-inline-reverse"></animation-demo>
-		<h2>push</h2>
-		<animation-demo data-transition-type="push-inline"></animation-demo>
-		<animation-demo data-transition-type="push-inline-reverse"></animation-demo>
-		<animation-demo data-transition-type="push-block"></animation-demo>
-		<animation-demo data-transition-type="push-block-reverse"></animation-demo>
+                place-items: center;
+                container-type: inline-size;
+                background-color: var(--bg, deeppink);
+                color: white;
+                position: relative;
+                overflow: clip;
+            }
+            animation-demo::before {
+                background-color: var(--bg, pink);
+                color: deeppink;
+                display: grid;
+                place-items: center;
+                position: absolute;
+                inset: 0;
+                animation-name: attr(data-animation-name);
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+                animation-direction: alternate;
+                font-size: clamp(1rem, 7cqi, 8rem);
+                content: attr(data-animation-name);
+            }
 
-		<h2>move</h2>
-		<animation-demo data-transition-type="move-in-inline"></animation-demo>
-		<animation-demo
-			data-transition-type="move-in-inline-reverse"
-		></animation-demo>
-		<animation-demo data-transition-type="move-in-block"></animation-demo>
-		<animation-demo
-			data-transition-type="move-in-block-reverse"
-		></animation-demo>
-
-		<h2>wipe</h2>
-		<animation-demo data-transition-type="wipe-inline"></animation-demo>
-        <animation-demo data-transition-type="wipe-inline-reverse"></animation-demo>
-        <animation-demo data-transition-type="wipe-block"></animation-demo>
-        <animation-demo data-transition-type="wipe-block-reverse"></animation-demo>
-
-	</body>
-	<script>
-		class AnimationDemo extends HTMLElement {
-			connectedCallback() {
-				const transionType = this.dataset.transitionType;
-				let counter = 0;
-
-				if ("startViewTransition" in HTMLElement.prototype) {
-					let timerId = setInterval(() => {
-						counter++;
-						this.startViewTransition({
-							update: () => {
-								this.textContent = `slide ${counter}`;
-                                this.style.setProperty("--bg", `oklch(59.69% 0.156 ${Math.random()* 360})`)
-							},
-							types: ["page-transition", transionType],
-						});
-					}, 2000);
-				}
-			}
-		}
-
-		customElements.define("animation-demo", AnimationDemo);
-	</script>
+            h2 {
+                grid-column: 1/-1;
+            }
+            @view-transition {
+                animation-duration: 12s;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>Animations Preview</h2>
+        <animation-demo data-animation-name="push-in"></animation-demo>
+        <animation-demo data-animation-name="push-out"></animation-demo>
+        <animation-demo data-animation-name="flip-in"></animation-demo>
+        <animation-demo data-animation-name="flip-out"></animation-demo>
+        <animation-demo data-animation-name="step-back"></animation-demo>
+        <animation-demo data-animation-name="circle"></animation-demo>
+        <animation-demo data-animation-name="wipe"></animation-demo>
+        <animation-demo data-animation-name="blend-in"></animation-demo>
+        <animation-demo data-animation-name="blend-in"></animation-demo>
+    </body>
 </html>

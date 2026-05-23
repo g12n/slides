@@ -1,25 +1,4 @@
 document.addEventListener("keydown", (e) => {
-  // 1. Safety check: Don't hijack keys if the user is typing
-  const isTyping =
-    e.target.tagName === "INPUT" ||
-    e.target.tagName === "TEXTAREA" ||
-    e.target.isContentEditable;
-
-  if (isTyping) return;
-
-  // 2. Search for the key within the space-separated list
-  // [aria-keyshortcuts~="ArrowRight"] matches "ArrowRight" or "n ArrowRight"
-  const link = document.querySelector(
-    `a[aria-keyshortcuts~="${CSS.escape(e.key)}"]`,
-  );
-
-  if (link) {
-    e.preventDefault();
-    link.click();
-  }
-});
-
-document.addEventListener("keydown", (e) => {
   if (e.target.matches("input, textarea") || e.target.isContentEditable) return;
   const link = document.querySelector(
     `a[aria-keyshortcuts~="${CSS.escape(e.key)}"]`,
@@ -31,16 +10,16 @@ document.addEventListener("keydown", (e) => {
 });
 
 navigation.onnavigate = (e) => {
-  console.log(e.destination, navigation.currentEntry);
-  const link = e.sourceElement;
-  if (!e.sourceElement) return;
+  let link = e.sourceElement;
+  const type = e.sourceElement?.dataset.transitionType;
 
-  let { transitionType, transitionAxis = "inline" } = link?.dataset;
+  let { transitionType, transitionAxis } = link.dataset;
   let transitionDirection =
-    link?.dataset.reverse != null ? "reverse" : "forward";
+    link.dataset.reverse != null ? "reverse" : "forward";
+
   if (transitionType) {
     navigation.updateCurrentEntry({
-      state: { transitionType, transitionDirection, transitionAxis },
+      state: { transitionType, transitionAxis, transitionDirection },
     });
   }
 };
@@ -48,9 +27,7 @@ navigation.onnavigate = (e) => {
 window.addEventListener("pageswap", (e) => {
   if (!e.viewTransition) return;
   const state = navigation.currentEntry.getState();
-
   if (state?.transitionType) {
-
     e.viewTransition.types.add(state.transitionType);
     e.viewTransition.types.add(state.transitionAxis);
     e.viewTransition.types.add(state.transitionDirection);
@@ -61,7 +38,6 @@ window.addEventListener("pagereveal", (e) => {
   if (!e.viewTransition) return;
   const state = navigation.activation.from?.getState();
   if (state?.transitionType) {
-    
     e.viewTransition.types.add(state.transitionType);
     e.viewTransition.types.add(state.transitionAxis);
     e.viewTransition.types.add(state.transitionDirection);

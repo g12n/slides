@@ -3,20 +3,21 @@
 @import "./styles/animations.css";
 @import "./styles/hexalist.css";
 @import "./styles/transitions.css";
+@import "./styles/themes.css";
 
 @view-transition {
-	navigation: auto;
+    navigation: auto;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	::view-transition-group(root) {
-		animation-duration: 1s;
-	}
-	[aria-keyshortcuts~="ArrowLeft"] {
-		view-transition-name: ArrowLeft;
-	}
+    ::view-transition-group(root) {
+        animation-duration: 1s;
+    }
+    [aria-keyshortcuts~="ArrowLeft"] {
+        view-transition-name: ArrowLeft;
+    }
 
-	[aria-keyshortcuts~="ArrowRight"] {
-		view-transition-name: ArrowRight;
-	}
+    [aria-keyshortcuts~="ArrowRight"] {
+        view-transition-name: ArrowRight;
+    }
 }

@@ -1,0 +1,20 @@
+:root {
+    --key-color: orange;
+    color-scheme: light dark;
+}
+body {
+    --surface-dark: oklch(from var(--key-color) 0.01 c h);
+    --on-surface-dark: oklch(from var(--key-color) 0.9 c h);
+
+    --surface-bright: oklch(from var(--key-color) 0.9 0.05 h);
+    --on-surface-bright: oklch(from var(--key-color) 0.2 c h);
+
+    color: light-dark(var(--on-surface-bright), var(--on-surface-dark));
+    background-color: light-dark(var(--surface-bright), var(--surface-dark));
+}
+
+baseline-status {
+    background-color: oklch(from var(--key-color) 0.25 0.01 h);
+    border-color: oklch(from var(--key-color) 0.5 0.01 h);
+    color: #fff;
+}

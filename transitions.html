@@ -11,18 +11,25 @@
             }
             body {
                 font-family: sans-serif;
-                margin: 0;
-                display: grid;
-                gap: 1rem;
-                padding: 1rem;
+
+                min-height: 100%;
                 background: var(--bg-color, black);
                 color: contrast-color(var(--bg-color));
             }
             transition-controlls {
                 display: grid;
-                margin: auto;
-                gap: 20px;
-                grid-template-columns: repeat(3, 1fr);
+                position: absolute;
+                inset: 50%;
+
+                transform: translate(-50%, -50%);
+                width: 40vmin;
+                height: 40vmin;
+                gap: 0px;
+                background: var(--bg-color);
+                overflow: hidden;
+                border-shape: circle(closest-side);
+                border: 4px solid oklch(from var(--bg-color) 0.85 c h / 0.3);
+                grid-template-columns: repeat(6, 1fr);
 
                 select {
                     grid-area: 2/2;
@@ -34,7 +41,12 @@
                 }
 
                 button {
-                    aspect-ratio: 1;
+                    --_bg: oklch(from var(--bg-color) calc(l - 0.1) c h);
+
+                    background-color: var(--_bg);
+                    border: 2px solid white;
+                    border-shape: inset(-5px round 5px);
+                    color: contrast-color(var(--_bg));
                 }
 
                 [data-axis="inline"] {
@@ -50,7 +62,7 @@
                 }
 
                 [data-axis="block"][data-reverse] {
-                    grid-area: 1/2;
+                    grid-area: 1/2/2/4;
                 }
             }
 
@@ -65,16 +77,17 @@
         <transition-controlls>
             <select id="transiton" name="transition-type">
                 <option value="move">move-in</option>
-                <option value="flip" selected>flip</option>
+                <option value="flip">flip</option>
                 <option value="push">push</option>
                 <option value="wipe">wipe</option>
                 <option value="blend">blend</option>
+                <option value="circle" selected>circle</option>
             </select>
 
             <button data-axis="inline">inline</button>
             <button data-axis="inline" data-reverse>inline reverse</button>
             <button data-axis="block">block</button>
-            <button data-axis="block" data-reverse>inline block</button>
+            <button data-axis="block" data-reverse>block reverse</button>
         </transition-controlls>
         <script>
             const headline = document.querySelector("h1");
@@ -100,7 +113,7 @@
 
                 document.startViewTransition({
                     update: updateTheDOMSomehow,
-                    types: ["page-transition", transitionName, axis, reverse],
+                    types: [transitionName, axis, reverse],
                 });
             }
 

@@ -1,3 +1,16 @@
+
+@keyframes push-out {
+    100% {
+        translate: calc(-100% * var(--x-axis)) calc(-100% * var(--y-axis));
+    }
+}
+
+@keyframes push-in {
+    0% {
+        translate: calc(100% * var(--x-axis)) calc(100% * var(--y-axis));
+    }
+}
+
 @keyframes flip-in {
     0%,
     50% {
@@ -11,7 +24,6 @@
         scale: 1;
     }
 }
-
 @keyframes flip-out {
     0% {
         rotate: var(--axis) 0deg;
@@ -28,18 +40,6 @@
     }
 }
 
-@keyframes push-out {
-    100% {
-        translate: calc(-100% * var(--x-axis)) calc(-100% * var(--y-axis));
-    }
-}
-
-@keyframes push-in {
-    0% {
-        translate: calc(100% * var(--x-axis)) calc(100% * var(--y-axis));
-    }
-}
-
 @keyframes step-back {
     0% {
         opacity: 1;
@@ -51,8 +51,7 @@
 }
 
 @keyframes stay {
-    0% {
-    }
+    0%,
     100% {
     }
 }
@@ -79,15 +78,16 @@
     }
 }
 @media (prefers-reduced-motion: no-preference) {
-    :active-view-transition-type(page-transition) {
+    :active-view-transition {
         --animation-enter: blend-in;
         --animation-leave: stay;
         --x-axis: 1;
         --y-axis: 0;
         --axis: y;
+        --max-duration: 1s;
 
         &::view-transition-group(root) {
-            animation-duration: 0.8s;
+            animation-duration: 1s;
             animation-timing-function: ease-in-out;
             overflow: hidden;
             background-color: black;
@@ -122,6 +122,8 @@
         --y-axis: 1;
     }
 
+    /* View Transiton Types */
+
     :active-view-transition-type(flip) {
         --animation-enter: flip-in;
         --animation-leave: flip-out;
@@ -129,6 +131,7 @@
             perspective: 200cqi;
         }
     }
+
     :active-view-transition-type(push) {
         --animation-enter: blend-in;
         --animation-leave: stay;
@@ -145,6 +148,20 @@
 
     :active-view-transition-type(wipe) {
         --animation-enter: wipe;
+        --animation-leave: stay;
+    }
+
+    @keyframes circle {
+        0% {
+            clip-path: circle(0% at calc(50% + var(--x-axis) * 50%)  calc(50% + var(--y-axis) * 50%))
+        }
+        100% {
+            clip-path: circle(100% at center)}
+        }
+    }
+
+    :active-view-transition-type(circle) {
+        --animation-enter: circle;
         --animation-leave: stay;
     }
 }
